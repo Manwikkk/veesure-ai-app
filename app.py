@@ -5,9 +5,6 @@ import numpy as np
 import matplotlib.pyplot as plt
 import seaborn as sns
 
-st.title("✅ App Loaded Successfully!")
-st.write("If you're seeing this, Streamlit is working.")
-
 # Load model and scaler
 model = joblib.load('model.joblib')
 scaler = joblib.load('scaler.joblib')
