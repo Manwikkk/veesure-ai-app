@@ -1,77 +1,83 @@
 import streamlit as st
 import pandas as pd
-import joblib
 import numpy as np
 import matplotlib.pyplot as plt
 import seaborn as sns
+import joblib
 import plotly.express as px
-
-# App Configuration
-st.set_page_config(page_title="Machine Failure Predictor", layout="wide")
-st.markdown("<h1 style='text-align: center;'>⚙️ AI for Manufacturing</h1>", unsafe_allow_html=True)
-st.markdown("<h4 style='text-align: center; color: gray;'>Real-time Machine Failure Prediction with Visual Insights</h4>", unsafe_allow_html=True)
-st.markdown("---")
 
 # Load model and scaler
 model = joblib.load('model.joblib')
 scaler = joblib.load('scaler.joblib')
 
-# File Upload
-st.sidebar.header("📤 Upload CSV File")
-uploaded_file = st.sidebar.file_uploader("Upload your machine sensor data", type=["csv"])
+# Page config
+st.set_page_config(page_title="AI for Manufacturing", layout="wide")
+st.title("⚙️ AI for Manufacturing – Machine Failure Prediction")
+st.markdown("Upload your machine sensor data (CSV) to predict potential machine failures using AI.")
+
+# File upload
+uploaded_file = st.file_uploader("📤 Upload your CSV file", type=["csv"])
 
 if uploaded_file:
     df = pd.read_csv(uploaded_file)
-    st.markdown("### 🧾 Preview of Uploaded Data")
-    st.dataframe(df.head(), use_container_width=True)
+    
+    st.markdown("### 🧾 Uploaded Data Sample")
+    st.dataframe(df.head())
 
     # Preprocess
     df_encoded = pd.get_dummies(df, columns=['Type'], drop_first=True)
-    df_encoded.drop(['UDI', 'Product ID'], axis=1, inplace=True, errors='ignore')
-    drop_cols = ['Machine failure', 'TWF', 'HDF', 'PWF', 'OSF', 'RNF']
-    df_encoded = df_encoded.drop(columns=[col for col in drop_cols if col in df_encoded.columns], errors='ignore')
+    df_encoded.drop(['UDI', 'Product ID'], axis=1, inplace=True)
 
-    # Scale and Predict
+    drop_cols = ['Machine failure', 'TWF', 'HDF', 'PWF', 'OSF', 'RNF']
+    df_encoded = df_encoded.drop(columns=[col for col in drop_cols if col in df_encoded.columns])
+
+    # Scale
     X_scaled = scaler.transform(df_encoded)
+
+    # Predict
     predictions = model.predict(X_scaled)
     probabilities = model.predict_proba(X_scaled)[:, 1]
 
+    # Append predictions
     result_df = df.copy()
     result_df['Failure_Prediction'] = predictions
     result_df['Failure_Probability'] = probabilities.round(3)
 
-    # Metrics
-    st.markdown("### 📊 Key Metrics")
-    col1, col2, col3 = st.columns(3)
-    col1.metric("Total Records", len(result_df))
-    col2.metric("Predicted Failures", int(result_df['Failure_Prediction'].sum()))
-    col3.metric("Average Failure Probability", f"{result_df['Failure_Probability'].mean():.2%}")
+    st.markdown("### 📊 Prediction Results")
+    st.dataframe(result_df[['Product ID', 'Type', 'Failure_Prediction', 'Failure_Probability']].head(10))
 
-    # Visual: Prediction Distribution
+    # Prediction distribution (Seaborn)
     st.markdown("### 🔍 Prediction Distribution")
-    fig1 = px.histogram(result_df, x='Failure_Prediction', color='Failure_Prediction',
-                        color_discrete_sequence=['#63cdda', '#e15f41'],
-                        labels={'Failure_Prediction': 'Predicted Failure'},
-                        title="Machine Failure vs Normal Cases")
-    st.plotly_chart(fig1, use_container_width=True)
+    fig, ax = plt.subplots()
+    sns.countplot(x='Failure_Prediction', data=result_df, palette='Set2', ax=ax)
+    ax.set_title("Predicted Failures vs Normal Operations")
+    st.pyplot(fig)
 
-    # Visual: Probability Heatmap by Type
-    if 'Type' in df.columns:
-        st.markdown("### 🔥 Failure Probability by Machine Type")
-        fig2 = px.box(result_df, x="Type", y="Failure_Probability", color="Type",
-                      color_discrete_sequence=px.colors.qualitative.Bold)
-        st.plotly_chart(fig2, use_container_width=True)
+    # Failure probability histogram (Plotly)
+    st.markdown("### 📈 Failure Probability Distribution")
+    fig2 = px.histogram(result_df, x='Failure_Probability', nbins=20, color='Failure_Prediction',
+                        color_discrete_map={0: 'green', 1: 'red'},
+                        title="Distribution of Failure Probabilities")
+    st.plotly_chart(fig2, use_container_width=True)
 
-    # Table of Top Predictions
-    st.markdown("### 📋 Top 10 High-Risk Machines")
-    top_failures = result_df.sort_values(by='Failure_Probability', ascending=False).head(10)
-    st.dataframe(top_failures[['Product ID', 'Type', 'Failure_Probability']], use_container_width=True)
+    # Boxplot: Torque vs Failure
+    st.markdown("### 📦 Sensor Insight: Torque vs Failure by Type")
+    fig3 = px.box(result_df, x='Type', y='Torque (Nm)', color='Failure_Prediction',
+                  title='Torque Levels per Machine Type',
+                  color_discrete_map={0: 'blue', 1: 'red'})
+    st.plotly_chart(fig3, use_container_width=True)
 
-    st.success("✅ Prediction complete!")
+    # Correlation Heatmap
+    st.markdown("### 🔥 Feature Correlation Heatmap")
+    correlation_cols = result_df.select_dtypes(include=[np.number]).drop(columns=["Failure_Prediction", "Failure_Probability"])
+    corr_matrix = correlation_cols.corr()
+
+    fig4, ax4 = plt.subplots(figsize=(10, 6))
+    sns.heatmap(corr_matrix, annot=True, fmt=".2f", cmap="coolwarm", linewidths=0.5, ax=ax4)
+    ax4.set_title("Correlation Between Sensor Features")
+    st.pyplot(fig4)
+
+    st.success("✅ Analysis & Prediction complete!")
 
 else:
-    st.info("Please upload a CSV file to get started.")
-
-# Footer
-st.markdown("---")
-st.markdown("<p style='text-align: center; color: gray;'>Built for Veesure Animal Health • AI for Manufacturing Project</p>", unsafe_allow_html=True)
+    st.info("Upload a CSV file to begin analysis.")
