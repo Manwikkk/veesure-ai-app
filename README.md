@@ -1,15 +1,8 @@
 <h1 align="center">⚙️ Veesure AI – Machine Failure Predictor</h1>
 
 <p align="center">
-  <img src="assets/banner.png" width="90%" alt="banner">
-</p>
-
-<p align="center">
-  <a href="https://veesure-ai-app.streamlit.app">
+  <a href="https://veesure-ai-app-h523kmnbjzukgzdns5rchy.streamlit.app">
     <img src="https://img.shields.io/badge/Streamlit-App-green?style=for-the-badge&logo=streamlit" />
-  </a>
-  <a href="https://github.com/Manwikkk/veesure-ai-app/blob/main/Veesure_AI_Project_Report.pdf">
-    <img src="https://img.shields.io/badge/Download-Report-blue?style=for-the-badge&logo=adobeacrobatreader" />
   </a>
 </p>
 
@@ -26,22 +19,22 @@ It uses real-time sensor data to predict failures and provides insightful visual
 
 | 🖼️ Upload Interface | 📊 Prediction Output |
 |---------------------|----------------------|
-| ![](assets/1-upload.png) | ![](assets/2-prediction.png) |
+| ![](assets/1.PNG) | ![](assets/2.PNG) |
 
 | 📈 Prediction Visualization | 🔥 Correlation Heatmap |
 |-----------------------------|-------------------------|
-| ![](assets/3-visualization.png) | ![](assets/4-heatmap.png) |
+| ![](assets/3.PNG) | ![](assets/4.PNG) |
 
 | 📋 Dataset Summary | 📌 Descriptive Analysis |
 |--------------------|-------------------------|
-| ![](assets/5-summary.png) | ![](assets/6-descriptive.png) |
+| ![](assets/5.PNG) | ![](assets/6.PNG) |
 
 ---
 
 ### 🚀 Live Demo
 
 Click here to try the app:  
-👉 [https://veesure-ai-app.streamlit.app](https://veesure-ai-app.streamlit.app)
+👉 [Click here to try the app](https://veesure-ai-app-h523kmnbjzukgzdns5rchy.streamlit.app)
 
 ---
 
@@ -69,18 +62,6 @@ Click here to try the app:
 | Hosting      | Streamlit Cloud |
 | Dev Tools    | VS Code, Git, GitHub |
 
----
-
-### 📁 Project Structure
-
-├── app.py # Streamlit app logic
-├── model.joblib # Trained ML model
-├── scaler.joblib # Preprocessing scaler
-├── requirements.txt # Dependencies
-├── README.md # This file
-├── Veesure_AI_Project_Report.pdf
-├── assets/ # Screenshots
-└── .gitignore
 
 ---
 
@@ -91,3 +72,49 @@ git clone https://github.com/Manwikkk/veesure-ai-app.git
 cd veesure-ai-app
 pip install -r requirements.txt
 streamlit run app.py
+
+```
+# 📦 Requirements
+- Install with:
+  
+```bash
+pip install -r requirements.txt
+```
+
+
+
+### Main Libraries:
+
+- streamlit
+
+- pandas
+
+- numpy
+
+- scikit-learn
+
+- xgboost
+
+- matplotlib
+
+- seaborn
+
+- plotly
+
+---
+
+
+# 📈 Future Improvements
+- ✅ Support real-time sensor streaming
+- ✅ Live dashboard with refresh intervals
+- ✅ Root cause failure analysis
+- ✅ Export PDF maintenance reports
+- ✅ Integrate with IoT devices and APIs
+
+---
+
+# 🔚 Conclusion
+This prediction app gives manufacturers a reliable, AI-driven solution to assess machine health using sensor data.
+With feature engineering, model prediction, and rich visual feedback, it enables smarter maintenance planning and data-driven decision-making for industry-ready operations. ⚙️📊
+
+---
