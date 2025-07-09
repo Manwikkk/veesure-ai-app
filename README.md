@@ -1,19 +1,51 @@
-# ⚙️ Veesure AI – Machine Failure Prediction App
+<h1 align="center">⚙️ Veesure AI – Machine Failure Predictor</h1>
 
-> Predict machine failures from sensor data using an AI model, and explore insights through interactive dashboards.  
-> Built for **Veesure Animal Health** as part of the **Intel AI for Manufacturing** project.
+<p align="center">
+  <img src="assets/banner.png" width="90%" alt="banner">
+</p>
 
-![App Preview](assets/preview.png)
+<p align="center">
+  <a href="https://veesure-ai-app.streamlit.app">
+    <img src="https://img.shields.io/badge/Streamlit-App-green?style=for-the-badge&logo=streamlit" />
+  </a>
+  <a href="https://github.com/Manwikkk/veesure-ai-app/blob/main/Veesure_AI_Project_Report.pdf">
+    <img src="https://img.shields.io/badge/Download-Report-blue?style=for-the-badge&logo=adobeacrobatreader" />
+  </a>
+</p>
 
 ---
 
-## 🚀 Live App
+### 📌 About the Project
 
-👉 [Click here to try the app](https://veesure-ai-app.streamlit.app)
+Veesure AI is a machine failure prediction system built for **Veesure Animal Health** under the **Intel AI for Manufacturing** initiative.  
+It uses real-time sensor data to predict failures and provides insightful visualizations for industrial operations.
 
 ---
 
-## 📊 Features
+### 📸 App Screenshots
+
+| 🖼️ Upload Interface | 📊 Prediction Output |
+|---------------------|----------------------|
+| ![](assets/1-upload.png) | ![](assets/2-prediction.png) |
+
+| 📈 Prediction Visualization | 🔥 Correlation Heatmap |
+|-----------------------------|-------------------------|
+| ![](assets/3-visualization.png) | ![](assets/4-heatmap.png) |
+
+| 📋 Dataset Summary | 📌 Descriptive Analysis |
+|--------------------|-------------------------|
+| ![](assets/5-summary.png) | ![](assets/6-descriptive.png) |
+
+---
+
+### 🚀 Live Demo
+
+Click here to try the app:  
+👉 [https://veesure-ai-app.streamlit.app](https://veesure-ai-app.streamlit.app)
+
+---
+
+### 📊 Features
 
 - 📥 Upload sensor data (CSV)
 - 🔍 Predict machine failure using a trained AI model
@@ -26,7 +58,7 @@
 
 ---
 
-## 🧪 Tech Stack
+### 🔧 Tech Stack
 
 | Category     | Tools |
 |--------------|-------|
@@ -39,7 +71,20 @@
 
 ---
 
-## 📁 How to Run Locally
+### 📁 Project Structure
+
+├── app.py # Streamlit app logic
+├── model.joblib # Trained ML model
+├── scaler.joblib # Preprocessing scaler
+├── requirements.txt # Dependencies
+├── README.md # This file
+├── Veesure_AI_Project_Report.pdf
+├── assets/ # Screenshots
+└── .gitignore
+
+---
+
+### 📥 How to Run Locally
 
 ```bash
 git clone https://github.com/Manwikkk/veesure-ai-app.git
